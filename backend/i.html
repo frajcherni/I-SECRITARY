@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrolling Animations</title>
+    <style>
+        body {
+            height: 300vh; /* To allow scrolling */
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: #ccc;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .circle img {
+            max-width: 100px;
+            max-height: 100px;
+        }
+        .table-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 100px;
+        }
+        .highlight {
+            background: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div class="circle">
+        <img id="circleImage" src="image1.jpg" alt="Center Image">
+    </div>
+    <div class="table-container">
+        <table>
+            <tr>
+                <td class="highlight">Column 1</td>
+                <td>Column 2</td>
+                <td>Column 3</td>
+                <td>Column 4</td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        const circle = document.querySelector('.circle');
+        const circleImage = document.getElementById('circleImage');
+        const tableColumns = document.querySelectorAll('td');
+        let currentImageIndex = 0;
+        let currentColumnIndex = 0;
+
+        const images = ['image1.jpg', 'image2.jpg', 'image3.jpg'];
+        const columnCount = tableColumns.length;
+
+        window.addEventListener('scroll', () => {
+            // Rotate the circle
+            const rotation = window.scrollY % 360;
+            circle.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+
+            // Change the image in the circle
+            if (window.scrollY % 100 === 0) {
+                currentImageIndex = (currentImageIndex + 1) % images.length;
+                circleImage.src = images[currentImageIndex];
+            }
+
+            // Animate table columns
+            if (window.scrollY % 200 === 0) {
+                tableColumns[currentColumnIndex].classList.remove('highlight');
+                currentColumnIndex = (currentColumnIndex + 1) % columnCount;
+                tableColumns[currentColumnIndex].classList.add('highlight');
+            }
+        });
+    </script>
+</body>
+</html>
